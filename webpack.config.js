@@ -1,5 +1,6 @@
 // 导入插件
 var ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 var path = require('path')
 console.log('path')
 var config = {
@@ -15,7 +16,24 @@ var config = {
     },
     // 加载，不必填
     module: {
-        rules: [
+        rules: [{
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        css: ExtractTextWebpackPlugin.extract({
+                            use: 'css-loader',
+                            fallback: 'vue-style-loader'
+                        }),
+                    }
+
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
             {
                 test: /\.css$/,
                 use: ExtractTextWebpackPlugin.extract({
@@ -29,6 +47,7 @@ var config = {
     // 插件 ，不必填
     plugins: [
         // 重命名提取后的css文件
+        new VueLoaderPlugin(),
         new ExtractTextWebpackPlugin("main.css")
     ]
 };
