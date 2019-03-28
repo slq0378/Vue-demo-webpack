@@ -1,13 +1,14 @@
 <template>
     <div>
         <div>{{name}}</div>
+        <!-- <img src="./世界地图.jpg" alt=""> -->
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
-            name: 'vue.js'
+            name: '组件化'
         }
     }
 }

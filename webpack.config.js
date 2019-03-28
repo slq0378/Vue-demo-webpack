@@ -1,32 +1,27 @@
-// 导入插件
-var ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-var path = require('path')
-console.log('path')
+var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 var config = {
-    // 入口，必填
     entry: {
         main: './main'
     },
-    // 出口，必填
     output: {
         path: path.join(__dirname, './dist'),
         publicPath: '/dist/',
         filename: 'main.js'
     },
-    // 加载，不必填
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        css: ExtractTextWebpackPlugin.extract({
+                        css: ExtractTextPlugin.extract({
                             use: 'css-loader',
                             fallback: 'vue-style-loader'
-                        }),
+                        })
                     }
-
                 }
             },
             {
@@ -36,21 +31,20 @@ var config = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextWebpackPlugin.extract({
+                use: ExtractTextPlugin.extract({
                     use: 'css-loader',
                     fallback: 'style-loader'
                 })
+            },
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader?limit=1024'
             }
-
         ]
     },
-    // 插件 ，不必填
     plugins: [
-        // 重命名提取后的css文件
-        new VueLoaderPlugin(),
-        new ExtractTextWebpackPlugin("main.css")
+        new ExtractTextPlugin("main.css")
     ]
 };
 
-// 导出配置
 module.exports = config;
