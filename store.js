@@ -4,11 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    // 配置相关
+    // 状态声明
     state: {
         count: 0, // 任何组件都可以通过$store.state.count读取,
         list: [5651, 3, 5, 10, 2, 23, 456, 12312, 12]
     },
+    // 修改操作，基本用法（改变数据的放这里）
     mutations: {
         // 改变count，通过提交mutations可以在任何组件改变count值
         // 尽量不要在mutations中异步操作数据，如果要异步操作，请使用其他方式如 actions
@@ -36,6 +37,7 @@ const store = new Vuex.Store({
             state.count *= params.number
         }
     },
+    // 修改操作，高级用法
     getters: {
         /**
          * @method filterList
@@ -54,6 +56,49 @@ const store = new Vuex.Store({
         filterListCount(state, getters) {
             return getters.filterList.length
         }
+    },
+    // 异步操作，高级用法（业务逻辑放这里）
+    actions: {
+        asyncIncrement(context) {
+            console.log('actions:', context)
+
+            function callback(resolve) {
+                setTimeout(function() {
+                    context.commit('increment')
+                    resolve()
+                }, 1000)
+            }
+            let promise = new Promise(callback)
+            return promise;
+        }
     }
 })
 export default store;
+
+// modules ,可以将分隔成不同模块
+const modulesA = {
+    state: {
+        count:12
+    },
+    mutations: {},
+    actions: {},
+    getters: {}
+}
+const modulesB = {
+    state: {
+        count:1
+    },
+    mutations: {},
+    actions: {},
+    getters: {}
+}
+// 引入多个模块
+const storeTest = new Vuex.Store({
+    modules: {
+        modulesA,
+        modulesB
+    }
+})
+// 访问不同模块的数据
+console.log(storeTest.state.modulesA.count)
+console.log(storeTest.state.modulesB.count)

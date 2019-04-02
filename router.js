@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 // 配置路由路径
 const Routers = [{
         path: '*', // 当路径不存在是，重定向到index
-        redirect: '/store-advanced' // 重定向
+        redirect: '/store-advanced-actions' // 重定向
     }, {
         path: '/index/',
         meta: {
@@ -49,6 +49,13 @@ const Routers = [{
             title: '状态管理高级用法'
         },
         component: (resolve) => require(['./views/store-advanced.vue'], resolve)
+    },
+    {
+        path: '/store-advanced-actions',
+        meta: {
+            title: '状态管理高级用法'
+        },
+        component: (resolve) => require(['./views/store-advanced-actions.vue'], resolve)
     }
 ]
 // 配置路由模式
