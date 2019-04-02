@@ -41,7 +41,7 @@ export default {
             }).catch((error) => {
                 console.log('reject:', error)
             })
-            // all 方法，并行执行异步操作
+            // all 方法，并行执行异步操作，以最晚执行的结果进行 then
             function getNumber1() {
                 const promise = new Promise((resolve, reject) => {
                     setTimeout(() => {
@@ -75,6 +75,39 @@ export default {
             Promise.all([getNumber1(), getNumber2(), getNumber3()]).then(result => {
                 console.log('all:', result)
             })
+
+            // race 方法，谁执行快就用谁的结果进行then
+            function getNumber4() {
+                const promise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log('getNumber4 resolve 下载图片 ')
+                        var img = new Image()
+                        img.onload = function() {
+                            resolve(img)
+                        }
+                    }, 1000)
+                });
+                return promise
+            }
+
+            function getNumber5() {
+                const promise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log('getNumber5 resolve')
+                        reject('下载图片超时');
+                    }, 5000)
+                });
+                return promise
+            }
+            // 以最快的执行结果为准，另外的舍弃
+            // 这个例子，两个请求异步进行，如果先下载图片成功，就进入then，或者下载图片超时进入catch
+            Promise.race([getNumber4(), getNumber5()])
+                .then((result) => {
+                    console.log('race resolve:', result)
+                })
+                .catch((error) => {
+                    console.log('race reject:', error)
+                })
         }
     }
 }
