@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     // 配置相关
     state: {
-        count: 0, // 任何组件都可以通过$store.state.count读取
+        count: 0, // 任何组件都可以通过$store.state.count读取,
+        list: [5651, 3, 5, 10, 2, 23, 456, 12312, 12]
     },
     mutations: {
         // 改变count，通过提交mutations可以在任何组件改变count值
@@ -33,6 +34,25 @@ const store = new Vuex.Store({
             }
             */
             state.count *= params.number
+        }
+    },
+    getters: {
+        /**
+         * @method filterList
+         * @param  state对象
+         * @return 过滤后的数组
+         */
+        filterList(state) {
+            return state.list.filter(item => item <= 10)
+        },
+        /**
+         * @method filterListCount
+         * @param  state对象
+         * @param  getters 对象，可以访问其他getter
+         * @return 过滤后数组长度
+         */
+        filterListCount(state, getters) {
+            return getters.filterList.length
         }
     }
 })

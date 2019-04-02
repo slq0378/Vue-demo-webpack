@@ -1,34 +1,29 @@
 <template>
     <div>
-        <div>vuex 高级用法 getter、actions、modules </div>
-        <div>{{count}}</div>
-        <button @click="add">+5</button>
-        <button @click="minus">-1</button>
-        <button @click="multiply">*2</button>
+        <h5>vuex 高级用法 getter、actions、modules </h5>
+        <div>list:{{list}}</div>
+        <div>直接过滤方式:{{filteredList}}</div>
+        <div>getter方式:{{filterList}}</div>
+        <div>getter方式:{{filterListCount}}</div>
     </div>
 </template>
 <script type="text/javascript">
 export default {
     computed: {
-        count() {
-            return this.$store.state.count
+        list() {
+            return this.$store.state.list
+        },
+        filteredList() {
+            return this.$store.state.list.filter(item => item <= 10)
+        },
+        filterList(){
+            return this.$store.getters.filterList
+        },
+        filterListCount(){
+            return this.$store.getters.filterListCount
         }
     },
     methods: {
-        add() {
-        	// 传递参数
-            this.$store.commit('increment', 5)
-        },
-        minus() {
-            this.$store.commit('decrease')
-        },
-        multiply() {
-        	// 直接使用type属性的对象传递参数
-            this.$store.commit({
-                type: 'multiply',
-                number: 2
-            })
-        }
     }
 }
 </script>
