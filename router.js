@@ -44,7 +44,7 @@ const Routers = [{
         component: (resolve) => require(['./views/store-demo.vue'], resolve)
     },
     {
-        path: '/store-demo',
+        path: '/store-advanced',
         meta: {
             title: '状态管理高级用法'
         },
