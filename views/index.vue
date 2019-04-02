@@ -6,10 +6,16 @@
         <router-link to="/user/asdfa/song/12" tag="li">跳转到用户</router-link>
         <button @click="click">点击跳转</button>
         <button @click="goBack"></button>
+        <div>{{count}}</div>
     </div>
 </template>
 <script type="text/javascript">
 export default {
+	computed:{
+		count(){
+			return this.$store.state.count
+		}
+	},
 	methods:{
 		click(){
 			this.$router.push({path:'/about'})
